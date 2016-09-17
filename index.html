@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel='stylesheet' href='css/enminesweeper.css'/>
+</head>
+<body>
+    <div id='buttonContainer'>
+        <button data-action='new'>New Game</button>
+        <button data-action='reveal'>Reveal Mines</button>
+        <button data-action='validate'>Validate</button>
+    </div>
+    <section id='content'>
+        <header>
+            <div class='innerHeader clearfix'>
+                <span id='remainingMines'>000</span>
+                <span id='timer' class='right'>000</span>
+            </div>
+        </header>
+        <div class='tileContainer'>
+            <div class='innerTileContainer clearfix'></div>
+        </div>
+    </section>
+
+    <script src='node_modules/jquery/dist/jquery.min.js'></script>
+    <script src='js/enminesweeper.js'></script>
+
+</body>
+</html>

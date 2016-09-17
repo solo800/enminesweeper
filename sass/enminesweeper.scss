@@ -1,0 +1,129 @@
+@font-face {
+    font-family: 'digital';
+    src: url('../fonts/digital_dismay-webfont.woff2') format('woff2'),
+         url('../fonts/digital_dismay-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+$backgroundColor: #C0C0C0;
+$emptyBackgroundColor: #BDBDBD;
+$emptyShadowColor: #787878;
+$lightShadowColor: #FFFFFF;
+$darkShadowColor: #8A8A8A;
+$shadowSize: 3px;
+@mixin boxShadow ($x: $shadowSize, $y: $shadowSize, $color: $lightShadowColor, $inset: inset) {
+    box-shadow: $x $y $color $inset;
+}
+@mixin outerShadow ($color: $lightShadowColor, $x: $shadowSize, $y: $shadowSize, $inset: inset) {
+    @include boxShadow($x, $y, $color, $inset);
+}
+@mixin innerShadow($color: $darkShadowColor, $x: $shadowSize, $y: $shadowSize, $inset: inset) {
+    @include boxShadow(($x * -1), ($y * -1), $color, $inset);
+}
+@mixin innerContainer ($shadowColor: $darkShadowColor) {
+    height: 100%;
+    width: 100%;
+    @include innerShadow($shadowColor);
+}
+* {
+    box-sizing: border-box;
+}
+#buttonContainer {
+    width: 50%;
+    margin: 2% auto;
+
+    button {
+        width: 19.5%;
+
+        &:not(:last-child) {
+            margin-right: 20%;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+#content {
+    margin: 0 auto;
+    background-color: $backgroundColor;
+    padding: 1%;
+}
+header {
+    width: 100%;
+    @include outerShadow($darkShadowColor);
+    margin-bottom: 4%;
+
+    .innerHeader {
+        @include innerContainer($lightShadowColor);
+        padding: 3%;
+    }
+
+    span {
+        font-family: 'digital';
+        background-color: black;
+        color: red;
+        font-size: 2em;
+        float: left;
+
+        &.right {
+            float: right;
+        }
+    }
+}
+.tileContainer {
+    width: 100%;
+    @include outerShadow($darkShadowColor);
+
+    .innerTileContainer {
+        @include innerContainer($lightShadowColor);
+        padding: 3px;
+
+        .tile {
+            @include outerShadow();
+            float: left;
+
+            .innerTile {
+                @include innerContainer();
+
+                span {
+                    width: 100%;
+                    text-align: center;
+                    float: left;
+                }
+            }
+
+            &.empty {
+                @include boxShadow(1px, 1px, $emptyShadowColor);
+                background-color: $emptyBackgroundColor;
+
+                .innertile {
+                    @include innerShadow(1px, 1px, $emptyShadowColor);
+                    background-color: $emptyBackgroundColor;
+                }
+
+                &.mine {
+                    background-color: red;
+
+                    .innertile {
+                        background-color: red;
+                    }
+                }
+            }
+        }
+    }
+}
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+ }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */

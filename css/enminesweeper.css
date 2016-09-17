@@ -1,0 +1,91 @@
+@font-face {
+  font-family: 'digital';
+  src: url("../fonts/digital_dismay-webfont.woff2") format("woff2"), url("../fonts/digital_dismay-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+* {
+  box-sizing: border-box; }
+
+#buttonContainer {
+  width: 50%;
+  margin: 2% auto; }
+  #buttonContainer button {
+    width: 19.5%; }
+    #buttonContainer button:not(:last-child) {
+      margin-right: 20%; }
+    #buttonContainer button:hover {
+      cursor: pointer; }
+
+#content {
+  margin: 0 auto;
+  background-color: #C0C0C0;
+  padding: 1%; }
+
+header {
+  width: 100%;
+  box-shadow: 3px 3px #8A8A8A inset;
+  margin-bottom: 4%; }
+  header .innerHeader {
+    height: 100%;
+    width: 100%;
+    box-shadow: -3px -3px #FFFFFF inset;
+    padding: 3%; }
+  header span {
+    font-family: 'digital';
+    background-color: black;
+    color: red;
+    font-size: 2em;
+    float: left; }
+    header span.right {
+      float: right; }
+
+.tileContainer {
+  width: 100%;
+  box-shadow: 3px 3px #8A8A8A inset; }
+  .tileContainer .innerTileContainer {
+    height: 100%;
+    width: 100%;
+    box-shadow: -3px -3px #FFFFFF inset;
+    padding: 3px; }
+    .tileContainer .innerTileContainer .tile {
+      box-shadow: 3px 3px #FFFFFF inset;
+      float: left; }
+      .tileContainer .innerTileContainer .tile .innerTile {
+        height: 100%;
+        width: 100%;
+        box-shadow: -3px -3px #8A8A8A inset; }
+        .tileContainer .innerTileContainer .tile .innerTile span {
+          width: 100%;
+          text-align: center;
+          float: left; }
+      .tileContainer .innerTileContainer .tile.empty {
+        box-shadow: 1px 1px #787878 inset;
+        background-color: #BDBDBD; }
+        .tileContainer .innerTileContainer .tile.empty .innertile {
+          box-shadow: -1px black 1px inset;
+          background-color: #BDBDBD; }
+        .tileContainer .innerTileContainer .tile.empty.mine {
+          background-color: red; }
+          .tileContainer .innerTileContainer .tile.empty.mine .innertile {
+            background-color: red; }
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0; }
+
+.clearfix {
+  display: inline-block; }
+
+/* start commented backslash hack \*/
+* html .clearfix {
+  height: 1%; }
+
+.clearfix {
+  display: block; }
+
+/* close commented backslash hack */
