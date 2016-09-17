@@ -5,7 +5,15 @@
 </head>
 <body>
     <div id='buttonContainer'>
+        <span>Cmd/ctrl click to flag a mine</span>
         <button data-action='new'>New Game</button>
+        <div class='inputContainer'>
+            <select name='difficulty' data-action='new'>
+                <option value='8'>Easy</option>
+                <option value='12'>Medium</option>
+                <option value='16'>Hard</option>
+            </select>
+        </div>
         <button data-action='reveal'>Reveal Mines</button>
         <button data-action='validate'>Validate</button>
     </div>

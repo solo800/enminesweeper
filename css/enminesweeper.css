@@ -4,18 +4,35 @@
   font-weight: normal;
   font-style: normal; }
 
+@font-face {
+  font-family: 'arvobold';
+  src: url("../fonts/arvo-bold-webfont.woff2") format("woff2"), url("../fonts/arvo-bold-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'arvoregular';
+  src: url("../fonts/arvo-regular-webfont.woff2") format("woff2"), url("../fonts/arvo-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
 * {
   box-sizing: border-box; }
 
 #buttonContainer {
-  width: 50%;
-  margin: 2% auto; }
-  #buttonContainer button {
-    width: 19.5%; }
-    #buttonContainer button:not(:last-child) {
-      margin-right: 20%; }
-    #buttonContainer button:hover {
-      cursor: pointer; }
+  width: 100%;
+  margin: 2% 0; }
+  #buttonContainer > * {
+    display: block;
+    width: 100px;
+    margin: 0.5% auto; }
+  #buttonContainer > span {
+    width: 100%;
+    text-align: center; }
+  #buttonContainer button:hover {
+    cursor: pointer; }
+  #buttonContainer select {
+    width: 100%; }
 
 #content {
   margin: 0 auto;
@@ -24,12 +41,12 @@
 
 header {
   width: 100%;
-  box-shadow: 3px 3px #8A8A8A inset;
+  box-shadow: 3px 3px 0 0 #8A8A8A inset;
   margin-bottom: 4%; }
   header .innerHeader {
     height: 100%;
     width: 100%;
-    box-shadow: -3px -3px #FFFFFF inset;
+    box-shadow: -3px -3px 0 0 #FFFFFF inset;
     padding: 3%; }
   header span {
     font-family: 'digital';
@@ -42,33 +59,182 @@ header {
 
 .tileContainer {
   width: 100%;
-  box-shadow: 3px 3px #8A8A8A inset; }
+  box-shadow: 3px 3px 0 0 #8A8A8A inset; }
   .tileContainer .innerTileContainer {
     height: 100%;
     width: 100%;
-    box-shadow: -3px -3px #FFFFFF inset;
+    box-shadow: -3px -3px 0 0 #FFFFFF inset;
     padding: 3px; }
     .tileContainer .innerTileContainer .tile {
-      box-shadow: 3px 3px #FFFFFF inset;
-      float: left; }
+      box-shadow: 3px 3px 0 0 #FFFFFF inset;
+      float: left;
+      position: relative;
+      font-family: 'arvobold'; }
       .tileContainer .innerTileContainer .tile .innerTile {
         height: 100%;
         width: 100%;
-        box-shadow: -3px -3px #8A8A8A inset; }
-        .tileContainer .innerTileContainer .tile .innerTile span {
-          width: 100%;
-          text-align: center;
-          float: left; }
+        box-shadow: -3px -3px 0 0 #8A8A8A inset; }
       .tileContainer .innerTileContainer .tile.empty {
-        box-shadow: 1px 1px #787878 inset;
+        box-shadow: 1px 1px 0 0 #787878 inset;
         background-color: #BDBDBD; }
-        .tileContainer .innerTileContainer .tile.empty .innertile {
-          box-shadow: -1px black 1px inset;
+        .tileContainer .innerTileContainer .tile.empty .innerTile {
+          box-shadow: -1px black 0 0 1px inset;
           background-color: #BDBDBD; }
         .tileContainer .innerTileContainer .tile.empty.mine {
           background-color: red; }
-          .tileContainer .innerTileContainer .tile.empty.mine .innertile {
-            background-color: red; }
+          .tileContainer .innerTileContainer .tile.empty.mine .innerTile {
+            background-color: red;
+            content: "X";
+            color: red;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.revealMine {
+        box-shadow: 0 0 0 0 #787878 inset;
+        background-color: #BDBDBD; }
+        .tileContainer .innerTileContainer .tile.revealMine .innerTile {
+          box-shadow: 0 0 2px 2px red inset; }
+          .tileContainer .innerTileContainer .tile.revealMine .innerTile::after {
+            content: "X";
+            color: red;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-0-mines .innerTile::after {
+        content: "0";
+        color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-0-mines-reveal .innerTile::after {
+        content: "0";
+        color: darkblue;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        transform: ""; }
+      .tileContainer .innerTileContainer .tile.surrounding-1-mines .innerTile::after {
+        content: "1";
+        color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-1-mines-reveal .innerTile::after {
+        content: "1";
+        color: darkblue;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        transform: ""; }
+      .tileContainer .innerTileContainer .tile.surrounding-2-mines .innerTile::after {
+        content: "2";
+        color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-2-mines-reveal .innerTile::after {
+        content: "2";
+        color: darkblue;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        transform: ""; }
+      .tileContainer .innerTileContainer .tile.surrounding-3-mines .innerTile::after {
+        content: "3";
+        color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-3-mines-reveal .innerTile::after {
+        content: "3";
+        color: darkblue;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        transform: ""; }
+      .tileContainer .innerTileContainer .tile.surrounding-4-mines .innerTile::after {
+        content: "4";
+        color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-4-mines-reveal .innerTile::after {
+        content: "4";
+        color: darkblue;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        transform: ""; }
+      .tileContainer .innerTileContainer .tile.surrounding-5-mines .innerTile::after {
+        content: "5";
+        color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-5-mines-reveal .innerTile::after {
+        content: "5";
+        color: darkblue;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        transform: ""; }
+      .tileContainer .innerTileContainer .tile.surrounding-6-mines .innerTile::after {
+        content: "6";
+        color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-6-mines-reveal .innerTile::after {
+        content: "6";
+        color: darkblue;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        transform: ""; }
+      .tileContainer .innerTileContainer .tile.surrounding-7-mines .innerTile::after {
+        content: "7";
+        color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-7-mines-reveal .innerTile::after {
+        content: "7";
+        color: darkblue;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        transform: ""; }
+      .tileContainer .innerTileContainer .tile.surrounding-8-mines .innerTile::after {
+        content: "8";
+        color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
+      .tileContainer .innerTileContainer .tile.surrounding-8-mines-reveal .innerTile::after {
+        content: "8";
+        color: darkblue;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        transform: ""; }
+      .tileContainer .innerTileContainer .tile.flagged::after {
+        content: "X";
+        color: green;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); }
 
 .clearfix:after {
   visibility: hidden;

@@ -5,6 +5,20 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'arvobold';
+    src: url('../fonts/arvo-bold-webfont.woff2') format('woff2'),
+         url('../fonts/arvo-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'arvoregular';
+    src: url('../fonts/arvo-regular-webfont.woff2') format('woff2'),
+         url('../fonts/arvo-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 $backgroundColor: #C0C0C0;
 $emptyBackgroundColor: #BDBDBD;
@@ -12,37 +26,49 @@ $emptyShadowColor: #787878;
 $lightShadowColor: #FFFFFF;
 $darkShadowColor: #8A8A8A;
 $shadowSize: 3px;
-@mixin boxShadow ($x: $shadowSize, $y: $shadowSize, $color: $lightShadowColor, $inset: inset) {
-    box-shadow: $x $y $color $inset;
+@mixin boxShadow ($x: $shadowSize, $y: $shadowSize, $blur: 0px, $spread: 0px, $color: $lightShadowColor, $inset: inset) {
+    box-shadow: $x $y $blur $spread $color $inset;
 }
 @mixin outerShadow ($color: $lightShadowColor, $x: $shadowSize, $y: $shadowSize, $inset: inset) {
-    @include boxShadow($x, $y, $color, $inset);
+    @include boxShadow($x, $y, 0, 0, $color, $inset);
 }
 @mixin innerShadow($color: $darkShadowColor, $x: $shadowSize, $y: $shadowSize, $inset: inset) {
-    @include boxShadow(($x * -1), ($y * -1), $color, $inset);
+    @include boxShadow(($x * -1), ($y * -1), 0, 0, $color, $inset);
 }
 @mixin innerContainer ($shadowColor: $darkShadowColor) {
     height: 100%;
     width: 100%;
     @include innerShadow($shadowColor);
 }
+@mixin afterContent($content: '', $color: black, $top: 50%, $left: 50%, $transform: translate(-50%, -50%)) {
+    content: '#{$content}';
+    color: $color;
+    position: absolute;
+    top: $top;
+    left: $left;
+    transform: $transform;
+}
 * {
     box-sizing: border-box;
 }
 #buttonContainer {
-    width: 50%;
-    margin: 2% auto;
+    width: 100%;
+    margin: 2% 0;
 
-    button {
-        width: 19.5%;
-
-        &:not(:last-child) {
-            margin-right: 20%;
-        }
-
-        &:hover {
-            cursor: pointer;
-        }
+    > * {
+        display: block;
+        width: 100px;
+        margin: 0.5% auto;
+    }
+    > span {
+        width: 100%;
+        text-align: center;
+    }
+    button:hover {
+        cursor: pointer;
+    }
+    select {
+        width: 100%;
     }
 }
 #content {
@@ -83,22 +109,18 @@ header {
         .tile {
             @include outerShadow();
             float: left;
+            position: relative;
+            font-family: 'arvobold';
 
             .innerTile {
                 @include innerContainer();
-
-                span {
-                    width: 100%;
-                    text-align: center;
-                    float: left;
-                }
             }
 
             &.empty {
-                @include boxShadow(1px, 1px, $emptyShadowColor);
+                @include boxShadow(1px, 1px, 0, 0, $emptyShadowColor);
                 background-color: $emptyBackgroundColor;
 
-                .innertile {
+                .innerTile {
                     @include innerShadow(1px, 1px, $emptyShadowColor);
                     background-color: $emptyBackgroundColor;
                 }
@@ -106,10 +128,36 @@ header {
                 &.mine {
                     background-color: red;
 
-                    .innertile {
+                    .innerTile {
                         background-color: red;
+                        @include afterContent(X, red);
                     }
                 }
+            }
+
+            &.revealMine {
+                @include boxShadow(0, 0, 0, 0, $emptyShadowColor);
+                background-color: $emptyBackgroundColor;
+
+                .innerTile {
+                    @include boxShadow(0, 0, 2px, 2px, red);
+
+                    &::after {
+                        @include afterContent(X, red);
+                    }
+                }
+            }
+            @for $i from 0 through 8 {
+                &.surrounding-#{$i}-mines .innerTile::after {
+                    @include afterContent($i);
+                }
+                &.surrounding-#{$i}-mines-reveal .innerTile::after {
+                    @include afterContent($i, darkblue, 5px, 5px, '');
+                }
+            }
+
+            &.flagged::after {
+                @include afterContent('X', green);
             }
         }
     }
