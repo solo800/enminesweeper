@@ -30,12 +30,10 @@
   #buttonContainer label, #buttonContainer input {
     display: none;
     float: left; }
-  #buttonContainer > label {
+  #buttonContainer label {
     width: 50%;
     text-align: right; }
-  #buttonContainer > input {
-    width: 10%;
-    margin-right: 40%;
+  #buttonContainer input {
     transform: scale(1.5); }
   #buttonContainer > span {
     width: 100%;
@@ -252,9 +250,15 @@ header {
 @media only screen and (max-width: 420px) {
   #buttonContainer *.mobileShow {
     display: block; }
-  #buttonContainer button, #buttonContainer select {
+  #buttonContainer > * {
     width: 90%;
-    margin: 1.2% auto; } }
+    margin-top: 2%; }
+  #buttonContainer .inputContainer label, #buttonContainer .inputContainer input {
+    margin-top: 2%; }
+  #buttonContainer .inputContainer label {
+    width: 48%;
+    margin-right: 6%;
+    text-align: right; } }
 
 .clearfix:after {
   visibility: hidden;

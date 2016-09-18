@@ -65,13 +65,11 @@ $shadowSize: 3px;
         display: none;
         float: left;
     }
-    > label {
+    label {
         width: 50%;
         text-align: right;
     }
-    > input {
-        width: 10%;
-        margin-right: 40%;
+    input {
         transform: scale(1.5);
     }
     > span {
@@ -187,9 +185,19 @@ $mobilePx: 420px;
         *.mobileShow {
             display: block;
         }
-        button, select {
+        > * {
             width: 90%;
-            margin: 1.2% auto;
+            margin-top: 2%;
+        }
+        .inputContainer {
+            label, input {
+                margin-top: 2%;
+            }
+            label {
+                width: 48%;
+                margin-right: 6%;
+                text-align: right;
+            }
         }
     }
 }

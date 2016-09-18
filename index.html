@@ -12,8 +12,6 @@
 <body>
     <div id='buttonContainer'>
         <span id='instructions'></span>
-        <label class='hide mobileShow'>Flag Mode</label>
-        <input type='checkbox' name='flagMode' class='hide mobileShow' value='flagMode'/>
         <button data-action='new' class='clear'>New Game</button>
         <div class='inputContainer'>
             <select name='difficulty' data-action='new'>
@@ -21,6 +19,8 @@
                 <option value='12'>Medium</option>
                 <option value='16'>Hard</option>
             </select>
+            <label class='hide mobileShow'>Flag Mode</label>
+            <input type='checkbox' name='flagMode' class='hide mobileShow' value='flagMode'/>
         </div>
         <button data-action='reveal'>Reveal Mines</button>
         <button data-action='validate'>Validate</button>
