@@ -3,6 +3,7 @@ $(document).ready(function () {
     $('body').on('click touch', '.tile', tileClick);
     $('body').on('change', '#buttonContainer select[name=difficulty]', takeAction);
     $('body').on('click touch', 'input[name=flagMode]', flagMode);
+    game.buildGame();
 });
 
 window.gameOver = false
@@ -11,6 +12,7 @@ var MOBILE_WIDTH = 420,
     game = Game(),
     timerRunning = false,
     timerInterval;
+
 /**
  * Functions external of the actual game module that are specific to this implementation
  */
