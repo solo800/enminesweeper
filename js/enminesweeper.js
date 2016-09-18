@@ -1,12 +1,16 @@
 $(document).ready(function () {
     $('body').on('click', 'button', takeAction);
     $('body').on('click touch', '.tile', tileClick);
-    $('body').on('change', '#buttonContainer select[name=difficulty]', takeAction)
+    $('body').on('change', '#buttonContainer select[name=difficulty]', takeAction);
+    $('body').on('click touch', 'input[name=flagMode]', flagMode);
 });
-var game = Game(),
+
+window.gameOver = false
+
+var MOBILE_WIDTH = 420,
+    game = Game(),
     timerRunning = false,
     timerInterval;
-
 /**
  * Functions external of the actual game module that are specific to this implementation
  */
@@ -51,45 +55,11 @@ function tileClick (e) {
     if (true === window.gameOver) {
         return;
     }
+
     game.tileClick.call(this, e);
 }
-function gameOver (result) {
-    window.gameOver = true;
-    window.clearInterval(timerInterval);
-    timerRunning = false;
-
-    if ('lose' === result) {
-        game.revealGame(function () {
-            window.setTimeout(function () {
-                alert("It's a sad sad day, you've lost.");
-            }, 100);
-        });
-    } else if ('win' === result) {
-        game.revealGame(function () {
-            window.setTimeout(function () {
-                alert('You win you smart devil you.');
-            });
-        });
-    } else {
-        alert('Errror in game over');
-    }
-}
-function startTimer () {
-    var timer = $('#timer'),
-        count;
-
-    timerInterval = window.setInterval(function () {
-        count = parseInt(timer.text());
-        count++;
-
-        if (10 > count) {
-            timer.text('00' + count);
-        } else if (100 > count) {
-            timer.text('0' + count);
-        } else {
-            timer.text(count);
-        }
-    }, 1000);
+function flagMode () {
+    game.flagMode.call(this);
 }
 
 /*
@@ -166,7 +136,10 @@ function Game () {
             return -1 < this.map.indexOf(coords);
         }
     },
+    flagMode = false,
     buildGame = function () {
+        window.gameOver = false;
+
         var gridSize = parseInt($('#buttonContainer select[name=difficulty]').val()),
             minesKey = {
                 8: 10,
@@ -241,6 +214,8 @@ function Game () {
     validateGame = function () {
         // Assume game is valid
         var result = true,
+            secondaryResult = true,
+            tiles = [],
             tileStats,
             tile;
 
@@ -255,9 +230,17 @@ function Game () {
 
                 result = false;
             }
+            // Save for secondary validation
+            tiles.push([tile, tileStats]);
         });
 
-        gameOver(true === result ? 'win' : 'lose');
+        tiles.forEach(function (tileArr) {
+            if (false === tileArr[1].isMine && false === tileArr[0].hasClass('empty')) {
+                secondaryResult = false;
+            };
+        });
+
+        gameOver(true === result || true === secondaryResult ? 'win' : 'lose');
     },
     resumeGame = function () {
         $('.tile').each(function (i, tile) {
@@ -274,7 +257,7 @@ function Game () {
         }
 
         // On cmd/ctrl click flag the tile
-        if (true === e.metaKey) {
+        if (true === e.metaKey || true === flagMode) {
             $(this).toggleClass('flagged');
             setRemainingMines();
             return;
@@ -296,8 +279,10 @@ function Game () {
             $(this).addClass('empty');
             checkSurroundingTiles(tileStats);
         };
+    },
+    flagMode = function () {
+        flagMode = this.checked;
     };
-
     /**
      * Private methods
      */
@@ -404,6 +389,25 @@ function Game () {
         return '#' + rowCol[0] + '-' + rowCol[1];
     }
 
+    // Starts the game timer and ticks up every second
+    function startTimer () {
+        var timer = $('#timer'),
+            count;
+
+        timerInterval = window.setInterval(function () {
+            count = parseInt(timer.text());
+            count++;
+
+            if (10 > count) {
+                timer.text('00' + count);
+            } else if (100 > count) {
+                timer.text('0' + count);
+            } else {
+                timer.text(count);
+            }
+        }, 1000);
+    }
+
     // Returns the grid size NOTE: Possibly deprecated in future versions
     function getGameSize () {
         return mines.gridSize;
@@ -423,6 +427,29 @@ function Game () {
         return 'width:' + dim + '; height:' + dim + ';';
     }
 
+    // End the game with either a win or a loss
+    function gameOver (result) {
+        window.gameOver = true;
+        window.clearInterval(timerInterval);
+        timerRunning = false;
+
+        if ('lose' === result) {
+            game.revealGame(function () {
+                window.setTimeout(function () {
+                    alert("It's a sad sad day, you've lost.");
+                }, 100);
+            });
+        } else if ('win' === result) {
+            game.revealGame(function () {
+                window.setTimeout(function () {
+                    alert('You win you smart devil you.');
+                });
+            });
+        } else {
+            alert('Errror in game over');
+        }
+    }
+
     /**
      * Init Function
      *
@@ -431,9 +458,15 @@ function Game () {
     (function () {
         var winHeight = $(window).height(),
             winWidth = $(window).width(),
-            dimension = (winHeight < winWidth ? winHeight : winWidth) * 0.6;
+            multiplier = MOBILE_WIDTH >= screen.width ? 0.9 : 0.6,
+            dimension = (winHeight < winWidth ? winHeight : winWidth) * multiplier;
 
         $('#content').width(dimension);
+
+        // Change the instructions text to display something different for mobile
+        if (MOBILE_WIDTH < screen.width) {
+            $('#instructions').text("Cmd/ctrl click to flag a mine");
+        }
     })();
 
     return {
@@ -441,6 +474,7 @@ function Game () {
         revealGame: revealGame,
         validateGame: validateGame,
         resumeGame: resumeGame,
-        tileClick: tileClick
+        tileClick: tileClick,
+        flagMode: flagMode
     };
 };

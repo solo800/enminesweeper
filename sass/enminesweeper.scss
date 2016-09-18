@@ -50,6 +50,7 @@ $shadowSize: 3px;
 }
 * {
     box-sizing: border-box;
+    font-family: 'arvoregular';
 }
 #buttonContainer {
     width: 100%;
@@ -60,12 +61,30 @@ $shadowSize: 3px;
         width: 100px;
         margin: 0.5% auto;
     }
+    label, input {
+        display: none;
+        float: left;
+    }
+    > label {
+        width: 50%;
+        text-align: right;
+    }
+    > input {
+        width: 10%;
+        margin-right: 40%;
+        transform: scale(1.5);
+    }
     > span {
         width: 100%;
         text-align: center;
     }
-    button:hover {
-        cursor: pointer;
+    button {
+        &.clear {
+            clear: left;
+        }
+        &:hover {
+            cursor: pointer;
+        }
     }
     select {
         width: 100%;
@@ -159,6 +178,18 @@ header {
             &.flagged::after {
                 @include afterContent('X', green);
             }
+        }
+    }
+}
+$mobilePx: 420px;
+@media only screen and (max-width: $mobilePx) {
+    #buttonContainer {
+        *.mobileShow {
+            display: block;
+        }
+        button, select {
+            width: 90%;
+            margin: 1.2% auto;
         }
     }
 }
